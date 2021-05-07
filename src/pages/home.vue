@@ -9,7 +9,7 @@
             .date 【{{ dateFormat(recent.date, 'YYYY.M.DD') }}】
         .more(@click="onEnterPosts")  阅读更多 >
 
-    .load-service.flex.flex-row
+    .load-service.flex.flex-row.px-72
         .card-item.flex(v-for="(product,index) in productItems" :key="index" :class="{ 'open': productIndex === index, 'close': productIndex !== index }")
             .cover.relative(v-show="productIndex !== index" @click="productIndex = index")
                 img.background.absolute.inset-0.z-1(:src="product.bgImage")
@@ -23,11 +23,11 @@
                     span.secord-color |
                     span.secord-color {{ product.subTitle }}
                 .product-content.flex.flex-wrap.h-full
-                    .product-content-item.flex.flex-col.justify-center.items-center(class="w-2/4 h-2/4" v-for="(item,index) in product.children" @click="onEnterPage(product.title)")
+                    .product-content-item.flex.flex-col.justify-center.items-center(class="w-2/4 h-2/4" v-for="(item,index) in product.children" @click="onEnterPage(item.title)")
                         img.w-20.m-2.cursor-pointer(:src="item.icon")
                         .title.cursor-pointer {{ item.title }}
                         .sub-title.text-xs.cursor-pointer {{ item.subTitle }}
-    .page-container.flex.flex-row.p-10.space-x-5
+    .page-container.flex.flex-row.p-10.space-x-5.px-72
         .recent-post.flex-1
             .title.py-5.space-x-2
                 span.primary-color.font-bold.text-lg 近期要问

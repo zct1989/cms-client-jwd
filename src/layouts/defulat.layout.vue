@@ -21,7 +21,7 @@ import Footer from './components/footer.vue'
   min-height 100%
   overflow auto
 .app-content
-  max-width 1280px
+  // max-width 1280px
   min-width 1024px
   min-height 100%
   background-color #fff

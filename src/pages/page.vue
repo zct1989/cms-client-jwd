@@ -1,4 +1,3 @@
-
 <template lang="pug">
 .page
     .content(v-if="content" v-html="content?.content")
@@ -10,49 +9,56 @@ import { ref } from "vue";
 import { useRoute } from "vue-router";
 import { useRequest } from "../graphql";
 
-
-const route = useRoute()
-const request = useRequest()
-const content = ref<any>()
-
+const route = useRoute();
+const request = useRequest();
+const content = ref<any>();
 
 function getPageContent(name) {
-    request(gql`
-    query($name: String) {
-        posts(where: {name: $name}, first: 1) {
-            nodes {
+  request(
+    gql`
+      query($name: String) {
+        posts(where: { title: $name }, first: 1) {
+          nodes {
             date
-                content
+            content
             title
-            }
+          }
         }
-    }`, {
-        name
-    }).then((data) => {
-        content.value = data?.posts.nodes[0]
-    })
+      }
+    `,
+    {
+      name,
+    }
+  ).then((data) => {
+    content.value = data?.posts.nodes[0];
+  });
 }
 
-watch(()=>route.params,()=>{
-    const { name } = route.params
-    getPageContent(name)
-})
+watch(
+  () => route.params,
+  () => {
+    const { name } = route.params;
+    getPageContent(name);
+  }
+);
 
 onMounted(() => {
-    const { name } = route.params
-    getPageContent(name)
-})
+  const { name } = route.params;
+  getPageContent(name);
+});
 </script>
-<style lang="stylus" scoped>
-</style>
+<style lang="stylus" scoped></style>
 
 <style lang="stylus">
 .page
     .content
-        img 
-            padding 0 
+        margin auto
+        margin-top 60px!important
+        img
+            padding 0
             margin 0
             width 100%
             border none
             max-width 100%
+            margin-left 6px
 </style>
