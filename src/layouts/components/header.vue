@@ -1,8 +1,8 @@
 <template lang="pug">
-.title.text-sm.flex.flex-row.justify-between.py-3.px-72 
+.title.text-sm.flex.flex-row.justify-between.py-3.content-width.m-auto
     .today {{today}}
     .hotline 服务热线：{{hotline}}
-.logo.flex.items-center.justify-between.px-20.py-5.px-72
+.logo.flex.items-center.justify-between.px-20.py-5.content-width.m-auto
     img.w-80(:src="Logo")
     .slogo.primary-color 惠农 · 兴商 · 富秦
 

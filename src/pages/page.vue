@@ -1,6 +1,6 @@
 <template lang="pug">
 .page
-    .content(v-if="content" v-html="content?.content")
+    .content.content-width.m-auto(v-if="content" v-html="content?.content")
 </template>
 <script setup lang="ts">
 import { onMounted, watch } from "@vue/runtime-core";
@@ -53,7 +53,7 @@ onMounted(() => {
 .page
     .content
         margin auto
-        margin-top 60px!important
+        margin-top 80px!important
         img
             padding 0
             margin 0

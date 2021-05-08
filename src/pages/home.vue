@@ -1,7 +1,7 @@
 <template lang="pug">
 .home
     .header-image
-        img(:src="topImage")
+        img.w-full(:src="topImage")
     .notify.flex.justify-between.px-10.py-2.text-sm.text-white
         .post.flex.space-x-5.cursor-pointer(@click="onEnterPost(recent.id)" v-if='recent')
             .catalog 【{{ recent.categories.nodes[0].name }}】
@@ -9,7 +9,7 @@
             .date 【{{ dateFormat(recent.date, 'YYYY.M.DD') }}】
         .more(@click="onEnterPosts")  阅读更多 >
 
-    .load-service.flex.flex-row.px-72
+    .load-service.flex.flex-row.content-width.m-auto
         .card-item.flex(v-for="(product,index) in productItems" :key="index" :class="{ 'open': productIndex === index, 'close': productIndex !== index }")
             .cover.relative(v-show="productIndex !== index" @click="productIndex = index")
                 img.background.absolute.inset-0.z-1(:src="product.bgImage")
@@ -27,7 +27,7 @@
                         img.w-20.m-2.cursor-pointer(:src="item.icon")
                         .title.cursor-pointer {{ item.title }}
                         .sub-title.text-xs.cursor-pointer {{ item.subTitle }}
-    .page-container.flex.flex-row.p-10.space-x-5.px-72
+    .page-container.flex.flex-row.p-10.space-x-5.content-width.m-auto
         .recent-post.flex-1
             .title.py-5.space-x-2
                 span.primary-color.font-bold.text-lg 近期要问

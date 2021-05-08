@@ -1,6 +1,6 @@
 
 <template lang="pug">
-.container.flex.flex-row
+.container.flex.flex-row.content-width.m-auto
     .category.p-5
         .category-item.py-5.cursor-pointer(
             v-for="item in categories"
@@ -129,7 +129,7 @@ onMounted(() => {
 
 <style lang="stylus" scoped>
 .container
-    margin 60px 50px 0 0
+    margin-top 60px
 .category
     flex-basis 200px
     width 200px

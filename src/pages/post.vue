@@ -1,6 +1,6 @@
 <template lang="pug">
 .post
-    .content.p-5(
+    .content.p-5.content-width.m-auto(
         v-html="post?.content"
     )
 </template>
@@ -48,7 +48,7 @@ onMounted(() => {
 </script>
 <style lang="stylus" scoped>
 .content
-    margin-top 60px!important
+    margin-top 80px!important
     padding 18px 80px
     img
         margin 6px

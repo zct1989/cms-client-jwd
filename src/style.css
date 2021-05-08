@@ -2827,3 +2827,7 @@ p.comment-form-comment {
 #ie8 section.featured-post .attachment-small-feature {
 	max-width: none;
 }
+
+.content-width{
+	width:85%!important;
+}
