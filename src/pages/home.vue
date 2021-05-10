@@ -2,7 +2,8 @@
 .home
     .header-image
         img.w-full(:src="topImage")
-    .notify.flex.justify-between.px-10.py-2.text-sm.text-white
+    .notify.py-2.text-sm.text-white
+      .content-width.m-auto.flex.justify-between
         .post.flex.space-x-5.cursor-pointer(@click="onEnterPost(recent.id)" v-if='recent')
             .catalog 【{{ recent.categories.nodes[0].name }}】
             .title.flex-auto {{ recent.title }}

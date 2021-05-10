@@ -1,6 +1,6 @@
 <template lang="pug">
 .menu.absolute.inset-x-0
-  .menu-container.flex.flex-row.px-72
+  .menu-container.flex.flex-row.content-width.m-auto
     .menu-item.font-bold.py-5.px-5(
       v-for="item in menus"
       :key="item.id"
@@ -90,7 +90,7 @@ function onEnterPage(item) {
     case "首页":
       window.location.href = "/";
       break;
-    case "信息咨询":
+    case "活动咨询":
       router.push({ name: "posts" });
       break;
     case "关于我们":

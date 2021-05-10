@@ -139,7 +139,8 @@ onMounted(() => {
     .category-item
         text-align center
         padding 15px
-        background-color #f7f7f7
+        background-color #219461
+        color #fff
         &.active
             background rgba(0,0,0,0.2)
             font-weight bold
