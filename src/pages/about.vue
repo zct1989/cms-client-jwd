@@ -1,13 +1,13 @@
 <template lang="pug">
-.about.relative
-    .content(v-if="node" v-html="node?.content" id="about-content")
-    .category.absolute
+.about.flex.flex-row.content-width.m-auto
+    .category
         .category-item.py-5.cursor-pointer(
             v-for="item in list"
             :key="item.id"
             @click="onActiveItem(item)"
             :class="{ active: node?.title === item.title }"
     ) {{ item.title }}
+    .content(v-if="node" v-html="node?.content" id="about-content")
 </template>
 <script setup lang="ts">
 import { onMounted, watch } from "@vue/runtime-core";
@@ -55,10 +55,8 @@ onMounted(() => {
 
 <style lang="stylus">
 .about
+    margin-top 80px!important
     .content
-        margin-left 240px
-        margin-right 20px
-        margin-top 80px!important
         img
             padding 0
             margin 0
