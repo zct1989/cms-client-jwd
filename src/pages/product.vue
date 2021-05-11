@@ -1,7 +1,7 @@
 <template lang="pug">
 .loan
     .top-image 
-        img.h-width(:src="LoadImage")
+        img.h-width(:src="ProductImage")
     .product-container(v-if="dataSource")
         .product-category.text-center.p-10(v-for="(category,index) in dataSource" :style="{ backgroundColor: index % 2 == 1 ? '#f7f7f7' : '#fff' }")
             .title.primary-color {{ category.label }}
@@ -22,7 +22,7 @@
 <script setup lang="ts">
 import { onMounted, watch } from "@vue/runtime-core";
 import { ref } from "vue";
-import LoadImage from "../assets/loan/loan-image.jpg";
+import ProductImage from "../assets/loan/product-image.jpg";
 import LeftIcon from "../assets/loan/left.png";
 import RightIcon from "../assets/loan/right.png";
 import { useRoute, useRouter } from "vue-router";
