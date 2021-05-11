@@ -1,11 +1,12 @@
 <template lang="pug">
 .about.relative
-    .content(v-if="content" v-html="content?.content" id="about-content")
+    .content(v-if="node" v-html="node?.content" id="about-content")
     .category.absolute
         .category-item.py-5.cursor-pointer(
             v-for="item in list"
             :key="item.id"
-            @click="onActiveItem(item.id)"
+            @click="onActiveItem(item)"
+            :class="{ active: node?.title === item.title }"
     ) {{ item.title }}
 </template>
 <script setup lang="ts">
@@ -14,17 +15,15 @@ import { gql } from "graphql-request";
 import { ref, nextTick } from "vue";
 import { useRoute } from "vue-router";
 import { useRequest } from "../graphql";
-
 const route = useRoute();
 const request = useRequest();
-const content = ref<any>();
+const node = ref<any>();
 const list = ref<any[]>([]);
-
 function getPageContent(name) {
   request(
     gql`
-      query($name: String) {
-        posts(where: { title: $name }, first: 1) {
+      query ($name: String) {
+        posts(where: { categoryName: $name }, first: 20) {
           nodes {
             date
             content
@@ -37,29 +36,15 @@ function getPageContent(name) {
       name,
     }
   ).then((data) => {
-    content.value = data?.posts.nodes[0];
-    nextTick(() => {
-      generateTitle();
-    });
+    list.value = data?.posts.nodes;
+    if (list.value && list.value.length) {
+      node.value = list.value[0];
+    }
   });
 }
 
-function onActiveItem(id) {
-  document.getElementById(id)?.scrollIntoView();
-}
-
-function generateTitle() {
-  const content = document.getElementById("about-content");
-  const spans = content?.querySelectorAll("h1,h2,h3,h4,h5,h6>span");
-  const result: any[] = [];
-  spans?.forEach((node: any) => {
-    node.id = Math.random().toString(32).slice(2);
-    result.push({
-      title: node.innerText,
-      id: node.id,
-    });
-  });
-  list.value = result;
+function onActiveItem(item) {
+  node.value = item;
 }
 
 onMounted(() => {
@@ -71,8 +56,9 @@ onMounted(() => {
 <style lang="stylus">
 .about
     .content
-        margin 0 240px
-        margin-top 60px!important
+        margin-left 240px
+        margin-right 20px
+        margin-top 80px!important
         img
             padding 0
             margin 0
@@ -91,8 +77,8 @@ onMounted(() => {
         .category-item
             text-align center
             padding 15px
-            background-color #f7f7f7
+            background-color #219461
+            color #fff
             &.active
-                background rgba(0,0,0,0.2)
                 font-weight bold
 </style>

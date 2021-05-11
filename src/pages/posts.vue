@@ -142,7 +142,7 @@ onMounted(() => {
         background-color #219461
         color #fff
         &.active
-            background rgba(0,0,0,0.2)
+            // background rgba(0,0,0,0.2)
             font-weight bold
 .posts
     .post

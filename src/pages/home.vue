@@ -24,8 +24,8 @@
                     span.secord-color |
                     span.secord-color {{ product.subTitle }}
                 .product-content.flex.flex-wrap.h-full
-                    .product-content-item.flex.flex-col.justify-center.items-center(class="w-2/4 h-2/4" v-for="(item,index) in product.children" @click="onEnterPage(item.title)")
-                        img.w-20.m-2.cursor-pointer(:src="item.icon")
+                    .product-content-item.flex.flex-col.justify-center.items-center(class="w-2/4 h-2/4" v-for="(item,index) in product.children")
+                        img.w-20.m-2(:src="item.icon")
                         .title.cursor-pointer {{ item.title }}
                         .sub-title.text-xs.cursor-pointer {{ item.subTitle }}
     .page-container.flex.flex-row.p-10.space-x-5.content-width.m-auto

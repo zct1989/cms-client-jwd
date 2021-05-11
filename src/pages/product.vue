@@ -4,7 +4,7 @@
         img.h-width(:src="ProductImage")
     .product-container(v-if="dataSource")
         .product-category.text-center.p-10(v-for="(category,index) in dataSource" :style="{ backgroundColor: index % 2 == 1 ? '#f7f7f7' : '#fff' }")
-            .title.primary-color {{ category.label }}
+            .title.primary-color.text-lg.font-bold {{ category.label }}
             .subTitle.text-sm {{ category?.connectedNode?.node.description }}
             .children-container.flex.flex-row.justify-center.pt-3
                 .left-arrow.flex.flex-col.justify-center(@click="pageIndex[index] -= 1" :style="{ visibility: pageIndex[index] > 0 ? 'visible' : 'hidden' }")
@@ -12,7 +12,7 @@
                 .content.flex.flex-row
                     .product-item.p-2.cursor-pointer(
                         v-for="product in category?.children?.slice(0+pageIndex[index]*4,4+pageIndex[index]*4)"
-                        @click="onEnterPost(product.id)"
+                        @click="onEnterPost(product?.connectedNode?.node?.id)"
                         )
                         img(:src="product?.connectedNode?.node?.featuredImage?.node?.mediaItemUrl")
                         .title.w-48.py-2.m-auto {{ product.label }}
@@ -22,9 +22,9 @@
 <script setup lang="ts">
 import { onMounted, watch } from "@vue/runtime-core";
 import { ref } from "vue";
-import ProductImage from "../assets/loan/product-image.jpg";
-import LeftIcon from "../assets/loan/left.png";
-import RightIcon from "../assets/loan/right.png";
+import ProductImage from "../assets/product/product-image.jpg";
+import LeftIcon from "../assets/product/left.png";
+import RightIcon from "../assets/product/right.png";
 import { useRoute, useRouter } from "vue-router";
 
 const router = useRouter();

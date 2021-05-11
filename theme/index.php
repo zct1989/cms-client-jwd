@@ -14,7 +14,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vite App</title>
+    <title>秦都农商银行</title>
 
     <?= vite('index.html', 'bank-theme') ?>
 </head>
