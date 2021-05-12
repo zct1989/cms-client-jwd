@@ -138,7 +138,8 @@ onMounted(() => {
 </script>
 <style lang="stylus" scoped>
 .menu
-  top 124px
+  z-index 100
+  top 128px
   background-color rgba(11,130,77,0.86)
   .menu-item
     color #fff

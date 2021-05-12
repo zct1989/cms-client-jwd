@@ -1,7 +1,13 @@
 <template lang="pug">
 .home
     .header-image
-        img.w-full(:src="topImage")
+      el-carousel(autoplay trigger="click" :height="imageHeight")
+        el-carousel-item
+          img.w-full(:src="topImage1")
+        el-carousel-item
+          img.w-full(:src="topImage2")
+        el-carousel-item
+          img.w-full(:src="topImage3")
     .notify.py-2.text-sm.text-white
       .content-width.m-auto.flex.justify-between
         .post.flex.space-x-5.cursor-pointer(@click="onEnterPost(recent.id)" v-if='recent')
@@ -90,7 +96,9 @@
 import { onMounted, ref } from "@vue/runtime-core";
 import { gql } from "graphql-request";
 import { useRouter } from "vue-router";
-import topImage from "../assets/home/top-image.jpg";
+import topImage1 from "../assets/home/top-image-1.jpg";
+import topImage2 from "../assets/home/top-image-2.jpg";
+import topImage3 from "../assets/home/top-image-3.jpg";
 import { useRequest } from "../graphql";
 import { dateFormat } from "../shared/utils/common.util";
 import LoadCover from "../assets/home/load-cover.png";
@@ -117,6 +125,7 @@ const posts = ref<any[]>([]);
 const router = useRouter();
 
 const productIndex = ref(0);
+const imageHeight = ref("700px");
 
 const productItems = ref<any[]>([
   {
@@ -197,6 +206,7 @@ function getPostCatalog() {
             nodes {
               id
               name
+              categoryId
             }
           }
         }
@@ -208,32 +218,38 @@ function getPostCatalog() {
     categories.value = nodes;
     currentCategory.value = nodes[0];
     getPostByCategory(currentCategory.value.name);
+    getLastPost(nodes.map((x) => x.categoryId));
   });
 }
 
-function getLastPost() {
-  request(gql`
-    query {
-      posts(first: 1) {
-        nodes {
-          id
-          date
-          title
-          excerpt
-          featuredImage {
-            node {
-              mediaItemUrl
+function getLastPost(categories) {
+  request(
+    gql`
+      query ($categories: [ID]!) {
+        posts(first: 1, where: { categoryIn: $categories }) {
+          nodes {
+            id
+            date
+            title
+            excerpt
+            featuredImage {
+              node {
+                mediaItemUrl
+              }
             }
-          }
-          categories {
-            nodes {
-              name
+            categories {
+              nodes {
+                name
+              }
             }
           }
         }
       }
+    `,
+    {
+      categories,
     }
-  `).then((data) => {
+  ).then((data) => {
     const nodes = data.posts.nodes;
     if (nodes.length) {
       recent.value = nodes[0];
@@ -244,7 +260,7 @@ function getLastPost() {
 function getPostByCategory(category) {
   request(
     gql`
-      query($category: String!) {
+      query ($category: String!) {
         posts(first: 5, where: { categoryName: $category }) {
           nodes {
             id
@@ -290,14 +306,17 @@ function onEnterPost(id) {
   router.push({ path: `/post/${id}` });
 }
 
-function onEnterPage(name){
-  if(!name) return
-  router.push({ path: `/page/${name}` })
+function onEnterPage(name) {
+  if (!name) return;
+  router.push({ path: `/page/${name}` });
 }
 
 onMounted(() => {
   getPostCatalog();
-  getLastPost();
+
+  window.addEventListener("resize", () => {
+    imageHeight.value = `${document.body.clientWidth / 2.5}px`;
+  });
 });
 </script>
 <style lang="stylus">

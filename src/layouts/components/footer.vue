@@ -8,29 +8,30 @@
                 span Friendly Link
             .bank-list.px-10.text-center.flex.flex-col.items-center
                 .flex.flex-row.justify-between.py-2.w-96
-                    .bank 铜川信合
-                    .space |
-                    .bank 渭南信合
-                    .space |
-                    .bank 汉中信合
-                    .space |
-                    .bank 广东信和
-                    .space |
-                    .bank 江苏信和
-                .flex.flex-row.justify-between.py-2.w-96
-                    .bank 北京农商银行
-                    .space |
-                    .bank 天津农商银行
-                    .space |
-                    .bank 重庆农商银行
-                .flex.flex-row.justify-between.py-2.w-96.mt-10
-                    .bank 手机一网通
-                    .space |
-                    .bank 网站声明
-                    .space |
-                    .bank 网点查询
-                    .space |
-                    .bank 网站地图
+                    .bank 
+                        a(href="http://www.sxnxs.com/") 陕西信合
+                //-     .space |
+                //-     .bank 渭南信合
+                //-     .space |
+                //-     .bank 汉中信合
+                //-     .space |
+                //-     .bank 广东信和
+                //-     .space |
+                //-     .bank 江苏信和
+                //- .flex.flex-row.justify-between.py-2.w-96
+                //-     .bank 北京农商银行
+                //-     .space |
+                //-     .bank 天津农商银行
+                //-     .space |
+                //-     .bank 重庆农商银行
+                //- .flex.flex-row.justify-between.py-2.w-96.mt-10
+                //-     .bank 手机一网通
+                //-     .space |
+                //-     .bank 网站声明
+                //-     .space |
+                //-     .bank 网点查询
+                //-     .space |
+                //-     .bank 网站地图
         .qrcode.flex-1.flex.flex-row.justify-center.space-x-8.items-end
             .wechat
                 .image
@@ -49,23 +50,27 @@
         .support 技术支持：西安灰度广告设计
 </template>
 <script setup lang="ts">
-import QrCode1 from "../../assets/home/qrcode-1.png"
-import QrCode2 from "../../assets/home/qrcode-2.png"
+import QrCode1 from "../../assets/home/qrcode-1.png";
+import QrCode2 from "../../assets/home/qrcode-2.png";
 </script>
 <style lang="stylus" scoped>
 .content
+    padding-top 50px
     background-color #219461
     color #fff
     .link
-        .title 
+        .title
             font-size 21px
             font-weight bold
+        a
+            color #fff
+            &:active
+                color rgba(255,255,255,0.5)
     .qrcode
-        img 
+        img
             width 150px
             height 150px
 
 .contact
     background-color #F7B200
-
 </style>

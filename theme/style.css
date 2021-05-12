@@ -7,3 +7,7 @@ Author:             zhuchentong
 Author URI:         https://zhuchentong.com
 Text Domain:        zhuchentong
 */
+
+.entry p {
+  text-indent: 2em;
+}
