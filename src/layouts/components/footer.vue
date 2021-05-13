@@ -7,7 +7,7 @@
                 span |
                 span Friendly Link
             .bank-list.px-10.text-center.flex.flex-col.items-center
-                .flex.flex-row.justify-between.py-2.w-96
+                .flex.flex-row.justify-center.py-2.w-96
                     .bank 
                         a(href="http://www.sxnxs.com/") 陕西信合
                 //-     .space |

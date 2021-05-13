@@ -1,11 +1,12 @@
 <template lang="pug">
 .post
-    .content.p-5.content-width.m-auto(
+    .post-content.p-5.content-width.m-auto(
         v-html="post?.content"
     )
 </template>
 <script setup lang="ts">
 import { onMounted, watch } from "@vue/runtime-core";
+import { ElLoading } from "element-plus";
 import { gql } from "graphql-request";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
@@ -16,6 +17,7 @@ const request = useRequest();
 const post = ref<any>();
 
 function getPostContent(id) {
+  const loadingInstance = ElLoading.service({ target: ".post" });
   request(
     gql`
       query($id: ID!) {
@@ -28,9 +30,13 @@ function getPostContent(id) {
     {
       id,
     }
-  ).then((data) => {
-    post.value = data.post;
-  });
+  )
+    .then((data) => {
+      post.value = data.post;
+    })
+    .finally(() => {
+      loadingInstance.close();
+    });
 }
 
 watch(
@@ -47,7 +53,9 @@ onMounted(() => {
 });
 </script>
 <style lang="stylus" scoped>
-.content
+.post
+  min-height 300px
+.post-content
     margin-top 80px!important
     padding 18px 80px
     img

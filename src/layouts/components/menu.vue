@@ -1,13 +1,23 @@
 <template lang="pug">
 .menu.absolute.inset-x-0
-  .menu-container.flex.flex-row.content-width.m-auto
-    .menu-item.font-bold.py-5.px-5(
-      v-for="item in menus"
-      :key="item.id"
-      @click="onEnterPage(item)"
-      @mouseenter="onEnterMenu(item)"
-      @mouseleave="onLeaveMenu(item)"
-    ) {{ item.label }}
+  .menu-container.flex.flex-row.content-width.m-auto.justify-between.items-center
+    .menu-wrapper.flex.flex-row
+      .menu-item.font-bold.py-5.px-5(
+        v-for="item in menus"
+        :key="item.id"
+        @click="onEnterPage(item)"
+        @mouseenter="onEnterMenu(item)"
+        @mouseleave="onLeaveMenu(item)"
+      ) {{ item.label }}
+    el-autocomplete.w-48(
+      size="small"
+      width="100px"
+      v-model="searchInput" 
+      :fetch-suggestions="onSearchPost" 
+      placeholder="  请输入内容"
+      align="center"  
+      :hide-loading="true"
+      @select="onOpenPost")
   .menu-children-panel.absolute.w-full.flex.flex-row.py-5.px-72(
     v-if="menuChildren && menuChildren.length"
     @mouseenter="onEnterSubMenu()"
@@ -45,6 +55,7 @@ const menuChildren = ref<any[]>();
 const request = useRequest();
 const router = useRouter();
 const reading = ref(false);
+const searchInput = ref("");
 /**
  * 获取菜单项目
  */
@@ -90,7 +101,7 @@ function onEnterPage(item) {
     case "首页":
       window.location.href = "/";
       break;
-    case "活动咨询":
+    case "活动资讯":
       router.push({ name: "posts" });
       break;
     case "关于我们":
@@ -130,6 +141,39 @@ function onLeaveMenu(item) {
       menuChildren.value = [];
     }
   }, 300);
+}
+
+function onSearchPost(value: string, callback) {
+  if (!value.trim()) {
+    return callback([]);
+  }
+
+  request(
+    gql`
+      query($value: String!) {
+        posts(first: 10, where: { search: $value }) {
+          nodes {
+            title
+            id
+          }
+        }
+      }
+    `,
+    {
+      value,
+    }
+  ).then(({ posts }) => {
+    callback(
+      posts.nodes.map((x) => ({
+        value: x.title,
+        id: x.id,
+      }))
+    );
+  });
+}
+
+function onOpenPost({ id }) {
+  onEnterPost(id);
 }
 
 onMounted(() => {

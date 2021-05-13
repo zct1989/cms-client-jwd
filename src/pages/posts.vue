@@ -1,4 +1,3 @@
-
 <template lang="pug">
 .container.flex.flex-row.content-width.m-auto
     .category.p-5
@@ -25,106 +24,112 @@
 <script setup lang="ts">
 import { ref } from "@vue/reactivity";
 import { onMounted } from "@vue/runtime-core";
+import { ElLoading } from "element-plus";
 import { gql } from "graphql-request";
 import { useRouter } from "vue-router";
 import { useRequest } from "../graphql";
-import { dateFormat } from '../shared/utils/common.util'
+import { dateFormat } from "../shared/utils/common.util";
 
-const request = useRequest()
-const router = useRouter()
+const request = useRequest();
+const router = useRouter();
 
-const categories = ref<any[]>([])
-const posts = ref<any[]>([])
-const cursor = ref<any>("")
+const categories = ref<any[]>([]);
+const posts = ref<any[]>([]);
+const cursor = ref<any>("");
 
-const currentCategory = ref<any>()
+const currentCategory = ref<any>();
 
 function getLastPost(reset = false) {
-    request(gql`
-    query($cursor:String,$category:String) {
-        posts(first: 10,after:$cursor,where: {categoryName: $category}) {
-            nodes {
-                id,
-                date
-                title
-                excerpt
-                featuredImage {
-                    node {
-                        mediaItemUrl
-                    }
-                }
-                categories {
-                    nodes {
-                        name
-                    }
-                }
-            },
-            pageInfo {
-                startCursor
-                endCursor
+  const loadingInstance = ElLoading.service({ target: ".more" });
+  request(
+    gql`
+      query($cursor: String, $category: String) {
+        posts(first: 10, after: $cursor, where: { categoryName: $category }) {
+          nodes {
+            id
+            date
+            title
+            excerpt
+            featuredImage {
+              node {
+                mediaItemUrl
+              }
             }
+            categories {
+              nodes {
+                name
+              }
+            }
+          }
+          pageInfo {
+            startCursor
+            endCursor
+          }
         }
-    }`, {
-        cursor: cursor.value,
-        category: currentCategory.value?.name
-    }).then((data) => {
-        const nodes = data.posts.nodes
+      }
+    `,
+    {
+      cursor: cursor.value,
+      category: currentCategory.value?.name,
+    }
+  )
+    .then((data) => {
+      const nodes = data.posts.nodes;
 
+      if (reset) {
+        posts.value = nodes;
+      } else {
+        nodes.length && posts.value.push(...nodes);
+      }
 
-        if (reset) {
-            posts.value = nodes
-        } else {
-            nodes.length && posts.value.push(...nodes)
-        }
-
-        if (nodes.length && nodes.length < 10) {
-            cursor.value = null
-        } else {
-            cursor.value = data.posts.pageInfo.endCursor
-        }
-
+      if (nodes.length && nodes.length < 10) {
+        cursor.value = null;
+      } else {
+        cursor.value = data.posts.pageInfo.endCursor;
+      }
     })
+    .finally(() => {
+      loadingInstance.close();
+    });
 }
 
 function getPostCatalog() {
-    request(gql`
+  request(gql`
     query {
-        categories(where: {name: "资讯文章"}) {
+      categories(where: { name: "资讯文章" }) {
+        nodes {
+          children {
             nodes {
-                children {
-                    nodes {
-                        id
-                        name
-                    }
-                }
+              id
+              name
             }
+          }
         }
-    }`).then((data) => {
-        const [catalog] = data.categories.nodes
-        const nodes = catalog.children.nodes
-        categories.value = nodes
-    })
+      }
+    }
+  `).then((data) => {
+    const [catalog] = data.categories.nodes;
+    const nodes = catalog.children.nodes;
+    categories.value = nodes;
+  });
 }
 
 function onChangeCategory(category) {
-    currentCategory.value = category
-    getLastPost(true)
-    cursor.value = null
+  currentCategory.value = category;
+  getLastPost(true);
+  cursor.value = null;
 }
 
 function onEnterPost(id) {
-    if (!id) return
+  if (!id) return;
 
-    router.push({ path: `/post/${id}` })
+  router.push({ path: `/post/${id}` });
 }
 
-
-
 onMounted(() => {
-    getLastPost()
-    getPostCatalog()
-})
-
+  getLastPost();
+  getPostCatalog();
+});
 </script>
 
 <style lang="stylus" scoped>
@@ -152,4 +157,3 @@ onMounted(() => {
         img
             width 200px
 </style>
-    

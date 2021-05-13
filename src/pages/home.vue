@@ -225,7 +225,7 @@ function getPostCatalog() {
 function getLastPost(categories) {
   request(
     gql`
-      query ($categories: [ID]!) {
+      query($categories: [ID]!) {
         posts(first: 1, where: { categoryIn: $categories }) {
           nodes {
             id
@@ -260,7 +260,7 @@ function getLastPost(categories) {
 function getPostByCategory(category) {
   request(
     gql`
-      query ($category: String!) {
+      query($category: String!) {
         posts(first: 5, where: { categoryName: $category }) {
           nodes {
             id
@@ -311,12 +311,14 @@ function onEnterPage(name) {
   router.push({ path: `/page/${name}` });
 }
 
+function updateImageHeight() {
+  imageHeight.value = `${document.body.clientWidth / 2.5}px`;
+}
+
 onMounted(() => {
   getPostCatalog();
-
-  window.addEventListener("resize", () => {
-    imageHeight.value = `${document.body.clientWidth / 2.5}px`;
-  });
+  updateImageHeight();
+  window.addEventListener("resize", updateImageHeight);
 });
 </script>
 <style lang="stylus">
