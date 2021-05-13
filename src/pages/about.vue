@@ -66,6 +66,7 @@ onMounted(() => {
     min-height 300px
     margin-top 80px!important
     .post-content
+        margin 0 20px
         img
             padding 0
             margin 0
