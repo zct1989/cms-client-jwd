@@ -8,6 +8,9 @@ const production = process.env.NODE_ENV === 'production'
 
 export default defineConfig({
   base: production ? '/wp-content/themes/bank-theme/' : '/',
+  define: {
+    __DEV__: JSON.stringify(!production)
+  },
   plugins: [
     vue(),
     copy({
